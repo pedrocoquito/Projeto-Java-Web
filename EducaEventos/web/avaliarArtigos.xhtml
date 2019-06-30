@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="corpo">
+        <h:form>
+            <fieldset>
+                <legend>Artigos Pendentes</legend>
+                <p:dataTable value="#{artigos.artigos}" var="a" rows="10"
+                             paginator="true"
+                             rendered="#{artigos.status == 'View'}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:column headerText="Título Artigo" sortBy="">
+                        <h:outputText value="#{a.titulo}" />
+                    </p:column>
+                    <p:column headerText="Validar Artigo" sortBy="">
+                        <p:commandButton value="Validar" 
+                                         update="@form"
+                                         action="#{artigos.validar(a)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Voltar" 
+                                         update="@form"
+                                         action="#{artigos.retorna()}"/>
+                <p:fragment rendered="#{artigos.status == 'Insert'}">
+                    <p:fieldset legend="#{artigos.artigo.titulo}">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <h:outputText
+                                value="#{artigos.artigo.texto}" />
+                        </h:panelGrid>
+                    </p:fieldset>
+                    <br />
+                    <h3>Parecer:</h3>
+                    <p:inputTextarea value="#{artigos.parecer}" rows="5" cols="30" counter="display" maxlength="40" counterTemplate="{0} characteres disponíveis." autoResize="false" />
+                    <br />
+                    <h:outputText id="display" />
+                    <br />
+                    <br />
+                    <p:commandButton value="Aprovar" 
+                                     update="@form"
+                                     action="#{artigos.aprovar()}"/>
+                    <p:commandButton value="Reprovar" 
+                                     update="@form"
+                                     action="#{artigos.reprovar()}"/>                
+                </p:fragment>
+            </fieldset>
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

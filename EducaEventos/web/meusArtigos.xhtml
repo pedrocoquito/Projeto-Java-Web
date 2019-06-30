@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="corpo">
+        <h:form>
+            <fieldset>
+                <legend>Meus Artigos</legend>
+                <p:dataTable value="#{meusArtigos.artigos}" var="a" rows="10"
+                             paginator="true"
+                             rendered="#{meusArtigos.status == 'View'}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:column headerText="Título Artigo" sortBy="">
+                        <h:outputText value="#{a.titulo}" />
+                    </p:column>
+                    <p:column headerText="Nota Total" sortBy="">
+                        <h:outputText value="#{a.media()}" />
+                    </p:column>
+                    <p:column headerText="Status" sortBy="">
+                        <h:outputText value="Aprovado" rendered="#{a.aprovado == 1}" />  
+                        <h:outputText value="Reprovado" rendered="#{a.aprovado == 2}" />  
+                        <h:outputText value="  -  " rendered="#{a.aprovado !=2 and a.aprovado != 1}" />  
+                    </p:column>
+                    <p:column headerText="Comentários" sortBy="">
+                        <p:commandButton value="Ver" 
+                                         update="@form"
+                                         action="#{meusArtigos.detalhes(a.idartigo)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:fragment rendered="#{meusArtigos.status == 'Check'}">
+                    <p:fieldset legend="#{meusArtigos.parecer.titulo}">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <h:outputText
+                                value="#{meusArtigos.parecer.texto}" />
+                        </h:panelGrid>
+                    </p:fieldset>
+                    <br />
+                    <h3>Parecer:</h3>
+                    <h:outputText value="#{meusArtigos.parecer.parecer}" />
+                    <br /> 
+                    <p:dataTable value="#{meusArtigos.notas}" var="n" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column headerText="Comentários" sortBy="">
+                            <h:outputText value="#{n.comentario}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:fragment>
+                <p:commandButton value="Voltar" 
+                                 update="@form"
+                                 action="#{meusArtigos.retorna()}"/>  
+            </fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

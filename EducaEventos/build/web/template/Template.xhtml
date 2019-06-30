@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Educa Eventos</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <h:outputStylesheet library="css" name="default.css" />
+    </h:head>
+
+    <h:body>
+
+        <div id="topWrapper"> 
+            <div id="topBanner"><a href="index?faces-redirect=true" /></div> 
+        </div>  
+        <div id="topnav"> 
+            <h:form>
+                <ul>
+                    <li>
+                        <h:commandLink action="index?faces-redirect=true">Home</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.usuarioLogado == null}"
+                                       action="#{index.callLoginPage()}">Login</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.usuarioLogado == null}"
+                                       action="#{index.callCadastroPage()}">Cadastre-se</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.usuarioLogado != null}"
+                                       action="#{login.logout()}">Sair</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.usuarioLogado.login != 'admin' and login.usuarioLogado != null}"
+                                       action="#{index.callArtigos()}">Artigos</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.usuarioLogado.login == 'admin'}"
+                                       action="#{index.callCadastroPage()}">Cadastrar Usuários</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.usuarioLogado.login == 'admin'}"
+                                       action="#{index.callEventoAdminPage()}">Cadastro Eventos</h:commandLink>
+                    </li>
+                    <li>
+                        <h:commandLink rendered="#{login.coordenador}"
+                                       action="#{index.callEventosPage()}">Coordenação de Eventos</h:commandLink>
+                    </li>
+                </ul> 
+            </h:form>
+        </div>   
+        <div id="wrapper"> 
+            <div id="bg"> 
+                <div id="header"></div>  
+                <div id="page"> 
+                    <div id="container"> 
+                        <div id="content"> 
+                            <h:form>
+                                <p:messages id="msg"/>
+                                <p:growl />
+                            </h:form>
+
+                            <ui:insert name="corpo">Centro da Página</ui:insert>
+
+                            <div class="clear" style="height:40px"></div> 
+                        </div>  
+                    </div>  
+                </div>  
+            </div> 
+        </div>  
+
+        <footer id="red">
+            <ui:insert name="rodape"></ui:insert>
+            <p>Telefone (32)1111-2233</p>
+            <p>Contato: contato@educaeventos.com</p>
+        </footer>
+
+    </h:body>
+
+</html>

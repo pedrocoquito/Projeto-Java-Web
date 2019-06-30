@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="corpo">
+        <h:form>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Título Artigo" for="titulo"/>
+                <p:inputText id="titulo" value="#{cadArtigo.titulo}" required="true" requiredMessage="Informe o título para o artigo."/>
+                <p:outputLabel value="Artigo" for="artigo"/>
+                <p:inputTextarea id="artigo" value="#{cadArtigo.texto}" rows="5" cols="30" required="true" requiredMessage="Insira seu artigo."/>
+                <p:outputLabel for="EvArt" value="Selecione o Evento"/>
+                <p:selectOneMenu id="EvArt" value="#{cadArtigo.idEvento}" required="true" requiredMessage="Selecione um evento.">
+                    <f:selectItems value="#{cadArtigo.eventos}" var="e"
+                                   itemLabel="#{e.nome}" itemValue="#{e.idevento}" />
+                </p:selectOneMenu>
+                <p:commandButton value="Salvar"                             
+                                 action="#{cadArtigo.cadastra()}"
+                                 update="@all"/>
+                <p:commandButton value="Voltar"                             
+                                 action="#{cadArtigo.retorna()}"
+                                 update="@all"/>
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

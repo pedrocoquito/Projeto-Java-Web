@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="corpo">
+        <h:form>
+            <fieldset>
+                <legend>Artigos Disponíveis</legend>
+                <p:dataTable value="#{ler.artigos}" var="a" rows="10"
+                             paginator="true"
+                             rendered="#{ler.status == 'View'}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:column headerText="Título Artigo" sortBy="">
+                        <h:outputText value="#{a.titulo}" />
+                    </p:column>
+                    <p:column headerText="Ler Artigo" sortBy="">
+                        <p:commandButton value="Leia" 
+                                         update="@form"
+                                         action="#{ler.detalhes(a)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:fragment rendered="#{ler.status == 'Insert'}">
+                    <p:fieldset legend="#{ler.artigo.titulo}">
+                        <h:panelGrid columns="1" cellpadding="5">
+                            <h:outputText
+                                value="#{ler.artigo.texto}" />
+                        </h:panelGrid>
+                    </p:fieldset>
+                    <br/>
+                    <br/>
+                    <label>Nota: </label>
+                    <p:selectOneMenu id="Nota"  value="#{ler.nota}" required="true" requiredMessage="Selecione a nota">
+                        <f:selectItem itemLabel="1" itemValue="1" />
+                        <f:selectItem itemLabel="2" itemValue="2" />
+                        <f:selectItem itemLabel="3" itemValue="3" />
+                        <f:selectItem itemLabel="4" itemValue="4" />
+                        <f:selectItem itemLabel="5" itemValue="5" />
+                    </p:selectOneMenu>
+                    <br />
+                    <h3>Comentário:</h3>
+                    <p:inputTextarea value="#{ler.comentario}" rows="5" cols="30" counter="display" maxlength="40" counterTemplate="{0} characters remaining." autoResize="false" />
+                    <br />
+                    <h:outputText id="display" />
+                    <br />
+                    <br />
+                    <p:commandButton value="Salvar" 
+                                     update="@form"
+                                     action="#{ler.salvar()}"/>  
+                    <p:commandButton value="Voltar" 
+                                     update="@form"
+                                     action="#{ler.retorna()}"/>   
+                </p:fragment>
+            </fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

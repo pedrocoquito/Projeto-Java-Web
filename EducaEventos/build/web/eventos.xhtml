@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="corpo">
+        <h:form>
+            <fieldset>
+                <legend>Eventos</legend>
+                <p:fragment rendered="#{eventos.status == 'View'}">
+                    <p:dataTable value="#{eventos.eventos}" var="e" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column headerText="Nome Evento" sortBy="">
+                            <h:outputText value="#{e.nome}" />
+                        </p:column>
+                        <p:column headerText="Prazo de Submissão" sortBy="">
+                            <h:outputText value="#{e.dataFinal}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Início do Evento" sortBy="">
+                            <h:outputText value="#{e.inicioEvento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Término do Evento" sortBy="">
+                            <h:outputText value="#{e.fimEvento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Detalhes">
+                            <p:commandButton value="Acessar Detalhes" 
+                                             update="@form"
+                                             action="#{eventos.detalhesEventos(e)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:fragment>
+                <p:fragment rendered="#{eventos.status == 'Check'}">
+                    <p:dataTable value="#{eventos.avaliadores}" var="av" rows="5">
+                        <p:column headerText="Avaliadores" sortBy="">
+                            <h:outputText value="#{av.usuario.nome}" />
+                        </p:column> 
+                    </p:dataTable>
+                    <p:dataTable value="#{eventos.artigos}" var="a" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15">
+                        <p:column headerText="Título" sortBy="">
+                            <h:outputText value="#{a.titulo}" />
+                        </p:column>
+                        <p:column headerText="Pesquisador" sortBy="">
+                            <h:outputText value="#{a.usuarioIdusuario.nome}" />
+                        </p:column>
+                        <p:column headerText="Nota" sortBy="">
+                            <h:outputText value="#{a.media()}"/>
+                        </p:column> 
+                    </p:dataTable>
+                    <p:commandButton value="Voltar" 
+                                     update="@all"
+                                     action="#{eventos.voltar()}"/>
+                </p:fragment>
+            </fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

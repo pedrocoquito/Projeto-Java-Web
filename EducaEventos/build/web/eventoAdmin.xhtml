@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="corpo">
+        <h:form>
+            <fieldset>
+                <legend>Eventos</legend>
+                <p:commandButton value="Criar Evento" 
+                                 rendered="#{cadEvento.status == 'View'}"
+                                 update="@form"
+                                 action="#{cadEvento.criarEvento()}"/>
+                <p:dataTable value="#{cadEvento.eventos}" var="e" rows="10"
+                             rendered="#{cadEvento.status == 'View'}"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+                    <p:column headerText="Nome Evento" sortBy="">
+                        <h:outputText value="#{e.nome}" />
+                    </p:column>
+                    <p:column headerText="Prazo de Submissão" sortBy="">
+                        <h:outputText value="#{e.dataFinal}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Início do Evento" sortBy="">
+                        <h:outputText value="#{e.inicioEvento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Término do Evento" sortBy="">
+                        <h:outputText value="#{e.fimEvento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>     
+                </p:dataTable>
+                <p:fragment rendered="#{cadEvento.status == 'Insert'}">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Nome Evento:" for="nome"/>
+                        <p:inputText id="nome" value="#{cadEvento.evento.nome}" required="true" requiredMessage="Informe o nome do evento"/>
+                        <p:outputLabel for="iSubmissao" value="Início Submissão:" />
+                        <p:calendar id="iSubmissao" value="#{cadEvento.evento.dataInicial}" 
+                                    required="true" requiredMessage="Informe uma data"
+                                    mindate="#{cadEvento.hoje()}" 
+                                    />
+                        <p:outputLabel for="fSubmissao" value="Fim Submissão:"  />
+                        <p:calendar id="fSubmissao" value="#{cadEvento.evento.dataFinal}" 
+                                    required="true" requiredMessage="Informe uma data"
+                                    mindate="#{cadEvento.evento.dataInicial}"
+                                    />
+                        <p:outputLabel for="iEvento" value="Início Evento:" />
+                        <p:calendar id="iEvento" value="#{cadEvento.evento.inicioEvento}" 
+                                    required="true" requiredMessage="Informe uma data"
+                                    mindate="#{cadEvento.evento.dataFinal}"
+                                    />
+                        <p:outputLabel for="fEvento" value="Fim Evento:" />
+                        <p:calendar id="fEvento" value="#{cadEvento.evento.fimEvento}" 
+                                    required="true" requiredMessage="Informe uma data"
+                                    mindate="#{cadEvento.evento.inicioEvento}"                                    
+                                    />
+                        <p:outputLabel for="fEvento" value="Cordenador:" />
+                        <p:selectOneMenu id="Coord"  value="#{cadEvento.coordenador}" required="true" requiredMessage="Selecione o Coordenador">
+                            <f:selectItems value="#{cadEvento.usuarios}" var="u"
+                                           itemLabel="#{u.nome}" itemValue="#{u.idusuario}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="fEvento" value="Avaliadores:" />
+                        <p:selectManyMenu id="Ava" value="#{cadEvento.avaliadores}" required="true" requiredMessage="Selecione os Avaliadores.">
+                            <f:selectItems value="#{cadEvento.usuarios}" var="u"
+                                           itemLabel="#{u.nome}" itemValue="#{u.idusuario}" />
+                        </p:selectManyMenu>
+                        <p:commandButton value="Salvar" 
+                                         update="@form"
+                                         action="#{cadEvento.salvarEvento()}"/>
+                        <p:commandButton value="Voltar" immediate="true"
+                                         update="@form"
+                                         action="#{cadEvento.voltar()}"/>
+                    </h:panelGrid>
+                </p:fragment>
+            </fieldset>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

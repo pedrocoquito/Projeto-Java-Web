@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template/Template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="corpo">
+        <h:form>
+            <fieldset>
+                <legend>Novo Artigo</legend>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:inputTextarea
+                        value="Envie artigos e participe de nossos Eventos!" />
+                </h:panelGrid>
+                <p:commandButton value="Cadastre"
+                                 update="@all"
+                                 action="#{pgArtigos.callCadArtigo()}"/>
+            </fieldset> 
+            <fieldset>
+                <legend>Ler Artigos</legend>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:inputTextarea
+                        value="Leia e avalie artigos disponíveis!" />
+                </h:panelGrid>
+                <p:commandButton value="Leia" 
+                                 action="#{pgArtigos.callLerArtigos()}"/>
+            </fieldset> 
+            <fieldset>
+                <legend>Meus Artigos</legend>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:inputTextarea
+                        value="Veja seu histórico." />
+                </h:panelGrid>
+                <p:commandButton value="Histórico" 
+                                 action="#{pgArtigos.callMeusArtigos()}"/>
+            </fieldset> 
+            <fieldset>
+                <legend>Admitir Artigos</legend>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:inputTextarea
+                        value="Área destinada a Avaliadores e Coordenadores de eventos." />
+                </h:panelGrid>
+                <p:commandButton value="Avalie" 
+                                 action="#{pgArtigos.callAvaliarArtigos()}"/>
+            </fieldset> 
+        </h:form>
+    </ui:define>
+
+</ui:composition>
